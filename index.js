@@ -1,5 +1,9 @@
-const fs = require('fs');
-const inquirer = require('inquirer');
+// const fs = require('fs');
+// const inquirer = require('inquirer');
+
+import inquirer from 'inquirer';
+import fs from 'fs';
+import { userInfo } from 'os';
 
 //gathers user inputs via prompt
 async function promptUser(){
@@ -14,7 +18,7 @@ async function promptUser(){
             type: 'list',
             name: 'color',
             message: 'Select color',
-            choices: ['red', 'blue', 'yellow'],
+            choices: ['red', 'blue', 'green'],
         },
         {
             type: 'list',
@@ -36,28 +40,37 @@ function generateLogo(userInput) {
     `;
 
     if(shape === "circle"){
-        svg += `
+        svgContent += `
         <circle cx="150" cy="100" r="80" fill="${color}" />
         `;
     } else if (shape === "square"){
-        svg += `
+        svgContent += `
         <rect x="50" y="50" width="200" height="100" fill="${color}" />
         `;
     } else if (shape === "triangle"){
-        svg += `
+        svgContent += `
         <polygon points="150,20 250,180 50,180" fill="${color}" />
         `;
     }
 
+    svgContent += `
+        <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">${text}</text>
+    </svg>`;
+
+    return svgContent;
 }
 
 async function saveAndGenerateLogo() {
     try {
         const userInput = await promptUser()
         const svgContent = generateLogo(userInput);
-        fs.writeFileSync('logo', svgContent);
+        fs.writeFileSync('logo.svg', svgContent);
         console.log("logo saved!");
     } catch (error) {
         console.log("Error generating logo: ", error);
     }
 }
+
+// promptUser()
+// .then((data) => generateLogo(data))
+saveAndGenerateLogo();
