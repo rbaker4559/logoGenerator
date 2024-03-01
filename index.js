@@ -31,6 +31,7 @@ async function promptUser(){
     return userInput;
 }
 
+//creates logo
 function generateLogo(userInput) {
 
     const {text, color, shape} = userInput;
@@ -60,6 +61,7 @@ function generateLogo(userInput) {
     return svgContent;
 }
 
+//awaits userInputs from prompt; generates logo and file
 async function saveAndGenerateLogo() {
     try {
         const userInput = await promptUser()
